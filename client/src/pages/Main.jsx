@@ -2,17 +2,19 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../context/userSlice";
 
+// import JoinRoomPage from "../components/Main/JoinRoomPage";
 const Main = () => {
-  const user = useSelector(selectUser);
+  // const user = useSelector(selectUser);
   return (
     <div className="bg-[#EEEEEE] w-[100vw] h-[100vh] flex justify-around items-center p-2">
+      {/* <JoinRoomPage /> */}
       <div className="mr-2 min-w-[350px] w-[25vw] h-[95vh] flex-col items-centerrounded-lg">
         <div className="bg-[#393E46] min-h-[550px] w-[100%] h-[90%] p-4 flex flex-col justify-start">
           <div className="min-h-[250px] bg-[#EEEEEE] h-[45%] w-[100%] border-solid border-2 mb-4 border-gray-400 rounded-lg">
             a
           </div>
           <div className="min-h-[250px] bg-[#EEEEEE] h-[45%] w-[100%] border-solid border-2 border-gray-400 rounded-lg">
-            <h1>{user.name}</h1>
+            {/* <h1>{user.name}</h1> */}
           </div>
         </div>
         <div className="bg-[#00ADB5] h-[5%] w-[100%] flex items-center p-2">
