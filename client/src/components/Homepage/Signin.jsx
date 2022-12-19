@@ -23,7 +23,7 @@ const Signin = ({ handleHideSignin, handleShowSignup }) => {
     try {
       let response = await axios.post(`${BACKEND_URL}/loginUser`, oldUserData);
       if (response.status === 200) {
-        // console.log(response.data.email)
+        // console.log("working")
         dispatch(
           login({
             name: response.data.name,
@@ -38,7 +38,7 @@ const Signin = ({ handleHideSignin, handleShowSignup }) => {
       }
     } catch (error) {
       // setCurrentUser(oldUserData);
-      console.log(error, ": Error in logging in user");
+      console.log(error, "Error in logging in user");
     }
   };
 
