@@ -1,13 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
+import { uniqueIdGenerator } from "../../utils/uniqueIdGenerator";
 import illus from "../../assets/illus2.png";
+import { useNavigate } from "react-router-dom";
+
 const JoinRoomPage = () => {
+  const [roomId, setRoomId] = useState("");
+  const navigate = useNavigate();
+  const createNewRoom = () => {
+    let tempRoomId = uniqueIdGenerator();
+    console.log(tempRoomId);
+    setRoomId(tempRoomId);
+  };
+
+  const joinRoom = () => {
+    if (!roomId) {
+      window.alert("Please Fill in Room Id");
+      return;
+    }
+    navigate(`/room/${roomId}`);
+  };
+
+  const handleEnterKey = (e) => {
+    if (e.code === "Enter") {
+      joinRoom();
+    }
+  };
+
   return (
     <div className="absolute z-[2] w-[100%] h-[100%] bg-[#EEEEEE] flex justify-center items-center">
       <div className="w-[50%] h-[100%] flex justify-center items-center">
         <img className="w-[100%]" src={illus} alt="illus" />
       </div>
       <div className="w-[50%] h-[100%] flex flex-col justify-center items-center">
-        <button class="text-2xl m-2 mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full">
+        <button
+          onClick={createNewRoom}
+          class="text-2xl m-2 mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
+        >
           New Session
         </button>
         <input
@@ -31,10 +59,16 @@ const JoinRoomPage = () => {
           "
           id="exampleText0"
           placeholder="Already have a code?"
+          value={roomId}
+          onChange={(e) => setRoomId(e.target.value)}
+          onKeyUp={handleEnterKey}
         />
-          <button class="text-xl m-2 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full">
-            Join Session
-          </button>
+        <button
+          onClick={joinRoom}
+          class="text-xl m-2 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
+        >
+          Join Session
+        </button>
       </div>
     </div>
   );

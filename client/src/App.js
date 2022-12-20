@@ -1,5 +1,6 @@
 // import { useState } from "react";
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import { Provider, useSelector } from "react-redux";
 import store from "./app/store";
@@ -11,7 +12,13 @@ function App() {
   return (
     <Provider store={store}>
       {/* <JoinRoomPage /> */}
-      <div className="App">{user ? <Main /> : <Homepage />}</div>
+
+      <div className="App">
+        <Routes>
+          <Route path="/" element={user ? <JoinRoomPage /> : <Homepage />} />
+          <Route path="/room/:roomId" element={<Main /> } />
+        </Routes>
+      </div>
     </Provider>
   );
 }

@@ -24,9 +24,7 @@ function Homepage() {
   };
 
   return (
-    
     <div className="h-[100vh] w-full bg-[#EEEEEE] flex justify-center font-sans">
-            
       {isShownSignup && (
         <div className="bg-[#000000a1] absolute top-0 left-0 right-0 bottom-0 m-auto z-10" />
       )}
