@@ -10,7 +10,7 @@ import "./socket/socket.io.js"
 var PORT = process.env.PORT || 8080;
 
 // Using cors
-app.use(cors());
+app.use(cors())
 
 // Connecting Database
 Connection();

@@ -16,7 +16,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={user ? <JoinRoomPage /> : <Homepage />} />
-          <Route path="/room/:roomId" element={<Main /> } />
+          <Route path="/room/:roomId" element={<Main />} />
         </Routes>
       </div>
     </Provider>

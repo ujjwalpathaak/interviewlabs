@@ -34,13 +34,13 @@ const JoinRoomPage = () => {
       <div className="w-[50%] h-[100%] flex flex-col justify-center items-center">
         <button
           onClick={createNewRoom}
-          class="text-2xl m-2 mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
+          className="text-2xl m-2 mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
         >
           New Session
         </button>
         <input
           type="text"
-          class="
+          className="
           form-control
           block
           w-10%
@@ -65,7 +65,7 @@ const JoinRoomPage = () => {
         />
         <button
           onClick={joinRoom}
-          class="text-xl m-2 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
+          className="text-xl m-2 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
         >
           Join Session
         </button>
