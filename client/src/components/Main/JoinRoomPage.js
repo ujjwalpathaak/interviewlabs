@@ -2,9 +2,16 @@ import React, { useState } from "react";
 import { uniqueIdGenerator } from "../../utils/uniqueIdGenerator";
 import illus from "../../assets/illus2.png";
 import { useNavigate } from "react-router-dom";
-
+import { useSocket } from "../../providers/Socket";
+import { selectUser } from "../../context/userSlice";
+import { useSelector } from "react-redux";
 const JoinRoomPage = () => {
-  const [roomId, setRoomId] = useState("");
+  const { socket } = useSocket();
+  const user = useSelector(selectUser);
+  let name = user.name;
+  // socket.emit('join-room', {roomId: '1', name: "arjun"})
+  const [roomId, setRoomId] = useState();
+
   const navigate = useNavigate();
   const createNewRoom = () => {
     let tempRoomId = uniqueIdGenerator();
@@ -17,6 +24,8 @@ const JoinRoomPage = () => {
       window.alert("Please Fill in Room Id");
       return;
     }
+    socket.emit("join-room", { roomId, name });
+
     navigate(`/room/${roomId}`);
   };
 
@@ -27,8 +36,8 @@ const JoinRoomPage = () => {
   };
 
   return (
-    <div className="absolute z-[2] w-[100%] h-[100%] bg-[#EEEEEE] flex justify-center items-center">
-      <div className="w-[50%] h-[100%] flex justify-center items-center">
+    <div className="absolute z-[2] w-[100%] h-[100%] bg-[#EEEEEE] flex justify-center items-center flex-col sm:flex-row">
+      <div className="w-[100%] h-[100%] flex justify-center items-center sm:w-[50%] sm:h-[100%] ">
         <img className="w-[100%]" src={illus} alt="illus" />
       </div>
       <div className="w-[50%] h-[100%] flex flex-col justify-center items-center">

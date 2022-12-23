@@ -1,5 +1,9 @@
 // import { useState } from "react";
 import "./App.css";
+
+import { SocketProvider } from "./providers/Socket";
+import { PeerProvider } from "./providers/Peer";
+
 import { Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import { Provider, useSelector } from "react-redux";
@@ -14,10 +18,17 @@ function App() {
       {/* <JoinRoomPage /> */}
 
       <div className="App">
-        <Routes>
-          <Route path="/" element={user ? <JoinRoomPage /> : <Homepage />} />
-          <Route path="/room/:roomId" element={<Main />} />
-        </Routes>
+        <SocketProvider>
+          <PeerProvider>
+            <Routes>
+              <Route
+                path="/"
+                element={user ? <JoinRoomPage /> : <Homepage />}
+              />
+              <Route path="/room/:roomId" element={<Main />} />
+            </Routes>
+          </PeerProvider>
+        </SocketProvider>
       </div>
     </Provider>
   );

@@ -1,4 +1,5 @@
 import express from "express";
+import { executeCode } from "../controllers/code.controller.js";
 const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -15,4 +16,6 @@ router.get("/", (req, res) => {
 router.post("/addUser", addUser);
 router.post("/loginUser", loginUser);
 
+// Code Execute
+router.post("/execute", executeCode)
 export default router;

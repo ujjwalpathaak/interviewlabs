@@ -6,11 +6,11 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import router from "./routes/routes.js";
 import Connection from "./database/connectDB.js";
-import "./socket/socket.io.js"
+import "./socket/socket.io.js";
 var PORT = process.env.PORT || 8080;
 
 // Using cors
-app.use(cors())
+app.use(cors());
 
 // Connecting Database
 Connection();

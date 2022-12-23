@@ -1,21 +1,35 @@
 import { Server } from "socket.io";
-const io = new Server();
+const io = new Server({
+  cors: true,
+});
 
 // MAPS 
-const emailToSocketMapping = new Map();
-
+const nameToSocketMapping = new Map();
+const socketToNameMapping = new Map();
 
 io.on("connection", (socket) => {
-  // join-room -> function
   socket.on("join-room", (data) => {
-    // asking for data
     const { roomId, name } = data;
-     console.log("user ", name, "join room", roomId);
+    console.log("user ", name, "joined room", roomId);
     nameToSocketMapping.set(name, socket.id);
+    socketToNameMapping.set(socket.id, name);
     socket.join(roomId);
+    socket.emit("joined-room", { roomId });
     socket.broadcast.to(roomId).emit("user-joined", { name });
+  });
+  socket.on("call-user", (data) => {
+    const { name, offer } = data;
+    const socketId = nameToSocketMapping.get(name);
+    const froEmail = socketToNameMapping.get(socket.id);
+    socket.to(socketId).emit("incomming-call", { from: froEmail, offer });
+  });
+  socket.on("call-accepted", (data) => {   
+    const { name, ans } = data;
+    const socketId = nameToSocketMapping.get(name);
+    socket.to(socketId).emit("call-accepted", { ans });
   });
 });
 
-io.listen(8081, () => {console.log("Socket server running on 8081")});
- 
+io.listen(8081, () => {
+  console.log("Socket server running on 8081");
+});
