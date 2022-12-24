@@ -50,10 +50,10 @@ const CodeEditArea = () => {
   };
 
   return (
-    <div className="h-full w-full">
-      <div className="h-[65%]">
+    <div className="sm:h-full sm:w-full">
+      <div className="sm:h-[65%] w-full">
         <textarea
-          className="rounded-lg h-[100%] border-gray-300"
+          className="rounded-lg h-[100%] w-full border-gray-300"
           value={code}
           onChange={doNothing}
           id="codeEditor2"
@@ -65,11 +65,11 @@ const CodeEditArea = () => {
           <span>Run</span>
         </button>
       </div>
-      <div className="bg-[#EEEEEE] rounded-lg h-[33%] ">
-        <div className="text-[#EEEEEE] bg-[#222831]  h-[15%] font-medium rounded-t-lg p-1 w-[100%]">
+      <div className="bg-[#EEEEEE] rounded-lg h-fit sm:h-[33%]">
+        <div className="text-[#EEEEEE] bg-[#222831] h-fit sm:h-[15%] font-medium rounded-t-lg p-1 w-[100%]">
           Terminal
         </div>
-        <div className="  h-[85%] border-solid border-2 border-gray-400">
+        <div className="h-[100px] sm:h-[85%] border-solid border-2 border-gray-400">
           {result && <div>{result}</div>}
         </div>
       </div>

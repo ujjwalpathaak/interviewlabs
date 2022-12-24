@@ -60,19 +60,18 @@ const Main = () => {
     getUserMediaStream();
   }, [getUserMediaStream]);
 
-  
   useEffect(() => {
     socket.on("user-joined", handleNewUserJoined);
     socket.on("incomming-call", handleIncomingCall);
     socket.on("call-accepted", handleCallAccepted);
-    
+
     return () => {
       socket.off("user-joined", handleNewUserJoined);
       socket.off("incomming-call", handleIncomingCall);
       socket.off("call-accepted", handleCallAccepted);
     };
   }, [handleNewUserJoined, handleIncomingCall, handleCallAccepted, socket]);
-  
+
   const handleNegosiation = useCallback(() => {
     const tempOffer = peer.localDescription;
     socket.emit("call-user", { name: otherTempStream, offer: tempOffer });
@@ -86,23 +85,25 @@ const Main = () => {
   }, [handleNegosiation, socket]);
 
   return (
-    <div className="bg-[#EEEEEE] w-[100vw] h-[100vh] flex justify-around items-center p-2">
+    <div className="bg-[#EEEEEE] w-[100vw] h-[100vh] flex flex-col sm:justify-around items-center sm:p-2 sm:flex-row">
       {/* <JoinRoomPage /> */}
-      <div className="mr-2 min-w-[350px] w-[25vw] h-[95vh] flex-col items-[plcenterrounded-lg">
-        <div className="bg-[#393E46] min-h-[550px] w-[100%] h-[90%] p-4 flex flex-col justify-start">
-          <div className="min-h-[250px] bg-[#EEEEEE] h-[45%] w-[100%] border-solid border-2 mb-4 border-gray-400 rounded-lg">
+      <div className="w-full h-[30vh] flex-col sm:rounded-lg sm:h-[95vh] sm:mr-2 sm:w-[24vw] sm:min-w-[350px]">
+        <div className="bg-[#393E46] w-[100%] h-full flex flex-row justify-start sm:h-[90%] sm:flex-col sm:p-4 sm:min-h-[550px]">
+          <div className="min-h-[250px] bg-[#EEEEEE] h-full w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-[45%] sm:mb-4">
             <ReactPlayer
               url={mystream}
-              width='100%'
-          height='100%'
+              width="100%"
+              height="100%"
               playing
               muted
             />
           </div>
-          <div className="min-h-[250px] bg-[#EEEEEE] h-[45%] w-[100%] border-solid border-2 border-gray-400 rounded-lg">
-          <ReactPlayer
-              className="h-full w-full"
+          <div className="min-h-[250px] bg-[#EEEEEE] h-full w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-[45%]">
+            <ReactPlayer
+              // className="h-full w-full"
               url={otherStream}
+              width="100%"
+              height="100%"
               playing
             />
           </div>
@@ -115,7 +116,7 @@ const Main = () => {
           </button>
         </div>
       </div>
-      <div className="bg-[#EEEEEE] flex flex-col justify-between w-[100%] h-[95vh]">
+      <div className="bg-[#EEEEEE] flex flex-col justify-between mt-6 sm:mt-0 w-[100%] h-[60vh] sm:h-[95vh] sm:w-[74vw]">
         <CodeEditArea />
       </div>
     </div>
