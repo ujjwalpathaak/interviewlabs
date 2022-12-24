@@ -9,8 +9,23 @@ import Connection from "./database/connectDB.js";
 import "./socket/socket.io.js";
 var PORT = process.env.PORT || 8080;
 
+// URL -> https://interviewlabs-server.onrender.com/
+
 // Using cors
-app.use(cors());
+const corsOpts = {
+  origin: '*',
+
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
+app.use(cors(corsOpts));
 
 // Connecting Database
 Connection();

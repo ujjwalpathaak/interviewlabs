@@ -30,6 +30,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(8081, () => {
-  console.log("Socket server running on 8081");
-});
+
