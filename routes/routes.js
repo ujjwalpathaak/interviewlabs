@@ -6,6 +6,11 @@ router.use(express.urlencoded({ extended: true }));
 
 // Importing controllers
 import { addUser, loginUser } from "../controllers/user.controller.js";
+import {
+  getRoom,
+  createRoom,
+  joinRoom,
+} from "../controllers/room.controller.js";
 
 //Base get to URL
 router.get("/", (req, res) => {
@@ -16,7 +21,12 @@ router.get("/", (req, res) => {
 router.post("/addUser", addUser);
 router.post("/loginUser", loginUser);
 
+// Create Rooms
+router.post("/createRoom", createRoom);
+router.post("/joinRoom", joinRoom);
+router.get("/getRoom", getRoom);
+
 // Code Execute
-router.post("/execute", executeCode)
+router.post("/execute", executeCode);
 
 export default router;
