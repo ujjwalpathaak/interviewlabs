@@ -62,13 +62,13 @@ const CodeEditArea = (props) => {
       url: `${REACT_APP_CODE_EXECUTE_URL}`,
       data: sendData,
     }).then((response) => {
-      console.log(response.data.ouput);
+      console.log(response.data.output);
       props.setLoading(false);
       socket.current.emit("output-change", {
         roomId: props.code,
-        result: response.data.ouput,
+        result: response.data.output,
       });
-      setResult(response.data.ouput);
+      setResult(response.data.output);
     });
   };
 
