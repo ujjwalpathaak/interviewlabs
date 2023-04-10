@@ -1,0 +1,25 @@
+{
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2",
+    "http": "^0.0.1-security",
+    "socket.io": "^4.5.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "interviewlabs-socket",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ujjwalpathaak/interviewlabs-socket.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ujjwalpathaak/interviewlabs-socket/issues"
+  },
+  "homepage": "https://github.com/ujjwalpathaak/interviewlabs-socket#readme",
+  "description": ""
+}

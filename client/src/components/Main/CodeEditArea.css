@@ -1,0 +1,21 @@
+.CodeMirror {
+  min-height: 100%;
+  font-size: 20;
+  line-height: 1.6;
+  border-radius: 0px 0px 8px 8px;
+  max-width: 76vw;
+  border: solid 2px rgb(156, 163, 175);
+}
+@media (max-width: 640px) {
+  .CodeMirror {
+    min-height: 100%;
+    font-size: 20;
+    line-height: 1.6;
+    /* border-radius: 8px; */
+    border-radius: 0px 0px 8px 8px;
+    max-width: 100%;
+  }
+  #selfVideo {
+    width: 80vw;
+  }
+}
