@@ -65,14 +65,14 @@ const JoinRoomPage = ({ setCode }) => {
       });
     socket.current.emit("get-me");
     socket.current.on("got-me", (id) => {
-      console.log(id);
+      // console.log(id);
       setMe(id);
       setName(user.name);
     });
   }, []);
 
   const callUser = (roomDetails, ownerID) => {
-    console.log("calling user: ", roomDetails.owner);
+    // console.log("calling user: ", roomDetails.owner);
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -91,7 +91,7 @@ const JoinRoomPage = ({ setCode }) => {
     });
 
     socket.current.on("callAccepted", async (signal) => {
-      console.log("call accepted");
+      // console.log("call accepted");
       setCallAccepted(true);
       let data2 = {
         roomId: roomDetails.roomId,

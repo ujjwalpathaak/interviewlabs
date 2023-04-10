@@ -44,10 +44,10 @@ const MainMobile = ({ code, mobile }) => {
 
   useEffect(() => {
     socket.current.on("callEnded", (data) => {
-      console.log("callended");
+      // console.log("callended");
     });
     socket.current.on("callUser", (data) => {
-      console.log("call incomming", data.from);
+      // console.log("call incomming", data.from);
       setReceivingCall(true);
       setCaller(data.from);
       setName(data.name);
@@ -56,7 +56,7 @@ const MainMobile = ({ code, mobile }) => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((stream) => {
-        console.log(stream);
+        // console.log(stream);
         setStream(stream);
         myVideo.current.srcObject = stream;
       });
@@ -64,7 +64,7 @@ const MainMobile = ({ code, mobile }) => {
 
   const answerCall = () => {
     setCallAccepted(true);
-    console.log("call picked up");
+    // console.log("call picked up");
     const peer = new Peer({
       initiator: false,
       trickle: false,

@@ -62,7 +62,7 @@ const CodeEditArea = (props) => {
       url: `${REACT_APP_CODE_EXECUTE_URL}`,
       data: sendData,
     }).then((response) => {
-      console.log(response.data.output);
+      // console.log(response.data.output);
       props.setLoading(false);
       socket.current.emit("output-change", {
         roomId: props.code,
@@ -73,7 +73,7 @@ const CodeEditArea = (props) => {
   };
 
   const doNothing = () => {
-    console.log("output");
+    // console.log("output");
   };
   const handletakeInput = (e) => {
     setInput(e.target.value);

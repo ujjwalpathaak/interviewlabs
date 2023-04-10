@@ -50,14 +50,14 @@ const CodeEditAreaMobile = (props) => {
       url: `${REACT_APP_CODE_EXECUTE_URL}`,
       data: sendData,
     }).then((response) => {
-      console.log(response.data.output);
+      // console.log(response.data.output);
       props.setLoading(false);
       setResult(response.data.output);
     });
   };
 
   const doNothing = () => {
-    console.log("output");
+    // console.log("output");
   };
   const handletakeInput = (e) => {
     setInput(e.target.value);
