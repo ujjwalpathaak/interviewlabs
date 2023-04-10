@@ -1,7 +1,6 @@
 import axios from "axios";
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-// const REACT_APP_DEVELOPMENT_BACKEND_URL =
-// process.env.REACT_APP_DEVELOPMENT_BACKEND_URL;
+// const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const REACT_APP_DEVELOPMENT_BACKEND_URL =process.env.REACT_APP_BACKEND_URL;
 
 export const createRoom = async (data) => {
   try {
