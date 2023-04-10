@@ -1,13 +1,17 @@
-import { createServer } from "http";
+// import { createServer } from "http";
 import { Server } from "socket.io";
 
-const httpServer = createServer();
-const io = new Server(httpServer, {
-  cors: {
-    origin: "https://interviewlabs.netlify.app/",
-    methods: ["GET", "POST"],
-  },
+const io = new Server(process.env.PORT || 9000, {
+  cors: true,
 });
+
+// const httpServer = createServer();
+// const io = new Server(httpServer, {
+//   cors: {
+//     origin: "https://interviewlabs.netlify.app/",
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 io.on("connection", (socket) => {
   socket.emit("me", socket.id);
@@ -49,4 +53,4 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(9000, () => console.log("server is running on port 5000"));
+// httpServer.listen(9000, () => console.log("server is running on port 5000"));
