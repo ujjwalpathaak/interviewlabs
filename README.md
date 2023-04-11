@@ -19,38 +19,37 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 
-[![Contributors][contributors-shield]][contributors-url]
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][linkedin-url] -->
 
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="readme/images/logo.png" alt="Logo" width="fit-content" height="fit-content">
   </a>
 
-<h3 align="center">project_title</h3>
-
-  <p align="center">
-    project_description
+<!-- <h3 align="center">interviewlabs</h3> -->
+<br>
+  <p align="justify">
+    Used ReactJS, ExpressJS and Redux-Toolkit for state management Interviewer and interviewee could make rooms and added WebRTC for video calling functionality. Added online C++ and Python IDE support using CompilerConnect API. Used Socket.io to make the IDE accessible real-time by both the users.
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <!-- <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a> -->
     <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <!-- <br /> -->
+    <a href="https://interviewlabs.netlify.app/">View Demo</a>
+    <!-- <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a> -->
   </p>
 </div>
 
 <!-- TABLE OF CONTENTS -->
-<details>
+<!-- <details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -73,7 +72,7 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
-</details>
+</details> -->
 
 <!-- ABOUT THE PROJECT -->
 
@@ -81,42 +80,76 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
+<!--
 Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 ### Built With
 
-- [![Next][next.js]][next-url]
+<!-- - [![Next][next.js]][next-url] -->
 - [![React][react.js]][react-url]
-- [![Vue][vue.js]][vue-url]
+- <img alt="Sockets" src="https://img.shields.io/badge/Redux-purple?style=for-the-badge&logo=redux&logoColor=white"/>
+- <img alt="Nodejs" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
+- <img alt="Sockets" src="https://img.shields.io/badge/Sockets-F7DF1E?style=for-the-badge&logo=socket.io&logoColor=black"/>
+- <img alt="Sockets" src="https://img.shields.io/badge/Tailwind-rgb(56,189,248)?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
+<!-- - [![Vue][vue.js]][vue-url]
 - [![Angular][angular.io]][angular-url]
 - [![Svelte][svelte.dev]][svelte-url]
 - [![Laravel][laravel.com]][laravel-url]
 - [![Bootstrap][bootstrap.com]][bootstrap-url]
-- [![JQuery][jquery.com]][jquery-url]
+- [![JQuery][jquery.com]][jquery-url] -->
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- GETTING STARTED -->
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
+<!-- This is an example of how you may give instructions on setting up your project locally. -->
+
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+<!-- This is an example of how to list things you need to use the software and how to install them. -->
 
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
+1. Install NPM packages in the following directories.
 
-### Installation
+```sh
+npm install
+cd client/ npm install
+cd sockets/ npm install
+```
 
-1. Get a free API Key at [https://example.com](https://example.com)
+2. Create .env files in client/ and root directory
+
+```sh
+DATABASE_URL =
+```
+
+```sh
+REACT_APP_DEVELOPMENT_BACKEND_URL =
+REACT_APP_DEVELOPMENT_SOCKET_URL =
+REACT_APP_CODE_EXECUTE_PROD_URL = https://compilerconnect-api.onrender.com/cpp
+```
+
+  <!-- ```sh
+  npm install
+  cd client/ npm install
+  cd sockets/ npm install
+  ``` -->
+
+3. Run Commands
+
+```sh
+nodemon server.js
+cd client/ npm start
+cd sockets/ nodemon server.js
+```
+
+<!-- ### Installation
+
 2. Clone the repo
    ```sh
    git clone https://github.com/github_username/repo_name.git
@@ -128,23 +161,24 @@ This is an example of how to list things you need to use the software and how to
 4. Enter your API in `config.js`
    ```js
    const API_KEY = "ENTER YOUR API";
-   ```
+   ``` -->
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+<!-- ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources. -->
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+<!--
+_For more examples, please refer to the [Documentation](https://example.com)_ -->
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- ROADMAP -->
 
-## Roadmap
+<!-- ## Roadmap
 
 - [ ] Feature 1
 - [ ] Feature 2
@@ -157,7 +191,7 @@ See the [open issues](https://github.com/github_username/repo_name/issues) for a
 
 <!-- CONTRIBUTING -->
 
-## Contributing
+<!-- ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
@@ -170,38 +204,38 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- LICENSE -->
 
-## License
+<!-- ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- CONTACT -->
-
+<!--
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+[@Linkedin](https://twitter.com/twitter_handle)
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name) -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
 
-## Acknowledgments
+<!-- ## Acknowledgments -->
 
-- []()
-- []()
-- []()
+<!-- - []() -->
+<!-- - []() -->
+<!-- - []() -->
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<!-- <p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links-->
 
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
 [contributors-url]: https://github.com/github_username/repo_name/graphs/contributors
