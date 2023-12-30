@@ -9,8 +9,7 @@ import "./CodeEditArea.css";
 import { SocketContext } from "../../context/Socket";
 import axios from "axios";
 import io from "socket.io-client";
-let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_CODE_EXECUTE_PROD_URL;
-// let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_CODE_EXECUTE_DEV_URL;
+let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_COMPILERCONNECT_URL;
 
 const CodeEditArea = (props) => {
   const [code, setCode] = useState(``);

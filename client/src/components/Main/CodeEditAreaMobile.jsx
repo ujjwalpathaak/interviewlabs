@@ -8,8 +8,7 @@ import "codemirror/addon/edit/closebrackets";
 import "./CodeEditArea.css";
 import axios from "axios";
 
-let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_CODE_EXECUTE_PROD_URL;
-// let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_CODE_EXECUTE_DEV_URL;
+let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_COMPILERCONNECT_URL;
 
 const CodeEditAreaMobile = (props) => {
   const [code, setCode] = useState(``);

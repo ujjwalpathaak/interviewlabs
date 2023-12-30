@@ -4,7 +4,6 @@ import axios from "axios";
 
 import { login } from "../../provider/userSlice";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-// const BACKEND_URL = process.env.REACT_APP_DEVELOPMENT_BACKEND_URL;
 
 const Signin = ({ handleHideSignin, handleShowSignup }) => {
   const [oldUserData, setOldUserData] = useState({

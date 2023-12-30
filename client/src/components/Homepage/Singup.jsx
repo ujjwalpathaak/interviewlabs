@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-// const BACKEND_URL = process.env.REACT_APP_DEVELOPMENT_BACKEND_URL;
 
 const Singup = ({ handleHideSignup, handleShowSignin }) => {
   const [newUserData, setNewUserData] = useState({
