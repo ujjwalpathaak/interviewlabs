@@ -3,13 +3,14 @@ import { io } from "socket.io-client";
 
 export const SocketContext = createContext(null);
 
-const SOCKET_URL = "https://interviewlabs-socket.onrender.com";
+
+const SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
 
 const SocketProvider = ({ children }) => {
   const socket = useRef();
   useEffect(() => {
-    // socket.current = io(`${SOCKET_URL}`);
-    socket.current = io.connect("https://interviewlabs-socket.onrender.com");
+    socket.current = io.connect(`${SOCKET_URL}`);
+    // socket.current = io.connect(`${SOCKET_URL}`);
   }, []);
 
   return (

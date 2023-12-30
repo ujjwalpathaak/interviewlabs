@@ -8,7 +8,7 @@ import "codemirror/addon/edit/closebrackets";
 import "./CodeEditArea.css";
 import { SocketContext } from "../../context/Socket";
 import axios from "axios";
-import io from "socket.io-client";
+
 let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_COMPILERCONNECT_URL;
 
 const CodeEditArea = (props) => {
@@ -58,7 +58,7 @@ const CodeEditArea = (props) => {
     props.setLoading(true);
     await axios({
       method: "post",
-      url: `${REACT_APP_CODE_EXECUTE_URL}`,
+      url: `${REACT_APP_CODE_EXECUTE_URL}/cpp`,
       data: sendData,
     }).then((response) => {
       // console.log(response.data.output);

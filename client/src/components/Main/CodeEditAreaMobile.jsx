@@ -46,7 +46,7 @@ const CodeEditAreaMobile = (props) => {
     props.setLoading(true);
     await axios({
       method: "post",
-      url: `${REACT_APP_CODE_EXECUTE_URL}`,
+      url: `${REACT_APP_CODE_EXECUTE_URL}/cpp`,
       data: sendData,
     }).then((response) => {
       // console.log(response.data.output);

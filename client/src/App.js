@@ -9,7 +9,6 @@ import JoinRoomPage from "./components/Main/JoinRoomPage";
 
 import "./App.css";
 import MainMobile from "./pages/MainMobile";
-import Error from "./components/Error";
 
 function App() {
   const user = useSelector(selectUser);
