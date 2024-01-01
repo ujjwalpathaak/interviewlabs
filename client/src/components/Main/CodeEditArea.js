@@ -125,7 +125,7 @@ const CodeEditArea = (props) => {
             <label className="">
               <input
                 type="radio"
-                checked={check == true}
+                checked={check === true}
                 value="true"
                 name="tre"
                 onChange={() => {

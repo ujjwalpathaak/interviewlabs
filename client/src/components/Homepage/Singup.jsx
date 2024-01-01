@@ -19,7 +19,6 @@ const Singup = ({ handleHideSignup, handleShowSignin }) => {
     event.preventDefault();
     try {
       let response = await axios.post(`${BACKEND_URL}/addUser`, newUserData);
-      // console.log(response);
       if (response.status === 201) {
         window.alert("User already exists");
         handleHideSignup();

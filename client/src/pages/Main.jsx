@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback, useState, useContext } from "react";
-import ReactPlayer from "react-player";
+import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 
 import CodeEditArea from "../components/Main/CodeEditArea";
@@ -44,8 +43,7 @@ const Main = ({ code }) => {
 
   useEffect(() => {
     socket.current.on("callEnded", (data) => {
-      userVideo.current.srcObject = null;
-      // console.log("callended");
+      leaveCall();
     });
     socket.current.on("callUser", (data) => {
       // console.log("call incomming", data.from);
@@ -66,13 +64,13 @@ const Main = ({ code }) => {
 
   const answerCall = () => {
     setCallAccepted(true);
-    // console.log("call picked up");
     setInCall(true);
     const peer = new Peer({
       initiator: false,
       trickle: false,
       stream: stream,
     });
+    console.log(caller);
     peer.on("signal", (data) => {
       socket.current.emit("answerCall", { signal: data, to: caller });
     });
@@ -85,9 +83,10 @@ const Main = ({ code }) => {
   };
 
   const leaveCall = () => {
-    setCallEnded(true);
+    socket.current.emit("callEnd");
     userVideo.current.srcObject = null;
     setInCall(false);
+    setCallEnded(true);
     navigate(`/joinroom`);
     connectionRef.current.destroy();
   };
@@ -97,7 +96,7 @@ const Main = ({ code }) => {
       <div className="w-full h-[30vh] flex-col sm:rounded-lg sm:h-[100vh] sm:p-6 sm:pr-3 sm:w-[25vw] sm:min-w-[350px]">
         <div className="bg-[#393E46] w-[100%] h-full flex flex-row justify-evenly sm:h-[95%] sm:flex-col sm:p-4 sm:min-h-[550px] rounded-t-lg">
           <div className="min-h-[250px] bg-[#EEEEEE] h-full w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-fit">
-            
+
             <video
               playsInline
               muted
@@ -105,6 +104,7 @@ const Main = ({ code }) => {
               autoPlay
               style={{ width: "100%" }}
             />
+            <span className="m-2">{`You (${user.name})`}</span>
           </div>
           <div className="min-h-[250px] bg-[#EEEEEE] h-fit w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-fit">
             <video
@@ -113,13 +113,16 @@ const Main = ({ code }) => {
               autoPlay
               style={{ width: "100%" }}
             />
+            {inCall && <span className="m-2">{`${name}`}</span>}
           </div>
+
           <div className="z-10">
             {receivingCall && !callAccepted ? (
               <div className="caller">
                 <h1 className="text-white font-extrabold m-2">
                   {/* {callerName ? callerName : "unknown"}  */}
                   {/* is calling... */}
+                  {`${name} is calling...`}
                 </h1>
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
@@ -154,10 +157,11 @@ const Main = ({ code }) => {
         </div>
       </div>
       <div className="bg-[#EEEEEE] flex flex-col justify-between mt-6 sm:mt-0 w-[100%] h-[60vh] sm:p-6 sm:pl-3 sm:h-[100vh] sm:w-[75vw]">
-        {loading == true ? (
+        {loading === true ? (
           <img
             className="z-10 h-20 w-20 absolute top-1/2 left-1/2 "
             src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+            alt="loading"
           />
         ) : (
           <></>

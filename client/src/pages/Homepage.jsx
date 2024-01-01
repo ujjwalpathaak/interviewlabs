@@ -1,14 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import illus from "../assets/illustration-homepage.png";
 import logo from "../assets/logo.png";
+
 import Singup from "../components/Homepage/Singup";
 import Signin from "../components/Homepage/Signin";
+import { usePeer } from "../context/Peer";
 
 function Homepage() {
   const [isShownSignin, setIsShownSignin] = useState(false);
   const [isShownSignup, setIsShownSignup] = useState(false);
   const navigate = useNavigate();
+  const { stream, setStream } = usePeer();
+
+  useEffect(() => {
+    const stopCamera = () => {
+      if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => track.stop());
+        setStream(null);
+      }
+    }
+
+    stopCamera();
+  }, []);
+
 
   const handleShowSignin = () => {
     setIsShownSignin((currents) => !currents);

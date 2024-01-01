@@ -1,17 +1,8 @@
-// import { createServer } from "http";
 import { Server } from "socket.io";
 
 const io = new Server(process.env.PORT || 9000, {
   cors: true,
 });
-
-// const httpServer = createServer();
-// const io = new Server(httpServer, {
-//   cors: {
-//     origin: "https://interviewlabs.netlify.app/",
-//     methods: ["GET", "POST"],
-//   },
-// });
 
 io.on("connection", (socket) => {
   socket.emit("me", socket.id);
@@ -25,7 +16,6 @@ io.on("connection", (socket) => {
 
   socket.on("join-room", ({ tempRoomId }) => {
     socket.join(tempRoomId);
-    console.log(tempRoomId);
   });
 
   socket.on("disconnect", () => {
@@ -52,5 +42,3 @@ io.on("connection", (socket) => {
     socket.in(roomId).emit("output-changed", { result });
   });
 });
-
-// httpServer.listen(9000, () => console.log("server is running on port 5000"));

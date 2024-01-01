@@ -3,30 +3,22 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./CodeEditArea.css";
-import { createdRoom, joinedRoom } from "../../provider/roomSlice";
+import { createdRoom } from "../../provider/roomSlice";
 import { uniqueIdGenerator } from "../../utils/uniqueIdGenerator";
 import { SocketContext } from "../../context/Socket";
 import { selectUser } from "../../provider/userSlice";
-import { selectRoom } from "../../provider/roomSlice";
+import loadingGIF from "../../assets/loading.gif";
 import { usePeer } from "../../context/Peer";
-import ReactPlayer from "react-player";
-import {
-  createRoom,
-  joinRoom,
-  getRoom,
-  getSocketId,
-} from "../../service/roomApi";
+import { createRoom, getSocketId } from "../../service/roomApi";
 import Peer from "simple-peer";
-import io from "socket.io-client";
 
 const JoinRoomPage = ({ setCode }) => {
   const { socket } = useContext(SocketContext);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const room = useSelector(selectRoom);
   const [roomId, setRoomId] = useState();
   const [vid, setVid] = useState({});
-  const [userId, setUserId] = useState("");
   const navigate = useNavigate();
   const {
     me,
@@ -93,6 +85,7 @@ const JoinRoomPage = ({ setCode }) => {
     socket.current.on("callAccepted", async (signal) => {
       // console.log("call accepted");
       setCallAccepted(true);
+      setLoading(false);
       let data2 = {
         roomId: roomDetails.roomId,
         joiner: user.name,
@@ -141,6 +134,7 @@ const JoinRoomPage = ({ setCode }) => {
       tempRoomId: roomDetails.roomId,
     });
     setCode(roomDetails.roomId);
+    setLoading(true);
     callUser(roomDetails);
   };
 
@@ -162,16 +156,27 @@ const JoinRoomPage = ({ setCode }) => {
           // style={{ width: "500px" }}
         />
       </div>
-      <div className="w-full sm:w-[30%] h-[100%] flex flex-col justify-start sm:justify-center items-center">
-        <button
-          onClick={createNewRoom}
-          className="whitespace-nowrap text-base sm:text-2xl m-2 mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
-        >
-          New Session
-        </button>
-        <input
-          type="text"
-          className="
+      {loading ? (
+        <>
+          <div className="flex items-center justify-center flex-col">
+            <span className="pl-10">
+              Please wait while you are added to the room by the room owner.
+            </span>
+            <img src={loadingGIF} className="w-[100px]" alt="Loading-Gif" />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="w-full sm:w-[30%] h-[100%] flex flex-col justify-start sm:justify-center items-center">
+            <button
+              onClick={createNewRoom}
+              className="whitespace-nowrap text-base sm:text-2xl m-2 mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
+            >
+              New Session
+            </button>
+            <input
+              type="text"
+              className="
           form-control
           block
           w-10%
@@ -188,19 +193,21 @@ const JoinRoomPage = ({ setCode }) => {
           m-0
           focus:text-[#393E46] focus:bg-white focus:border-[#00ADB5] focus:outline-none
           "
-          id="exampleText0"
-          placeholder="Already have a code?"
-          value={roomId}
-          onChange={(e) => setRoomId(e.target.value)}
-          onKeyUp={handleEnterKey}
-        />
-        <button
-          onClick={joinRoom}
-          className="whitespace-nowrap text-base sm:text-xl m-2 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
-        >
-          Join Session
-        </button>
-      </div>
+              id="exampleText0"
+              placeholder="Already have a code?"
+              value={roomId}
+              onChange={(e) => setRoomId(e.target.value)}
+              onKeyUp={handleEnterKey}
+            />
+            <button
+              onClick={joinRoom}
+              className="whitespace-nowrap text-base sm:text-xl m-2 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
+            >
+              Join Session
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

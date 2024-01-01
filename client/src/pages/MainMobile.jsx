@@ -1,5 +1,4 @@
-import React, { useEffect, useCallback, useState, useContext } from "react";
-import ReactPlayer from "react-player";
+import React, { useEffect, useState, useContext } from "react";
 import { useSelector } from "react-redux";
 
 import CodeEditArea from "../components/Main/CodeEditArea";
@@ -13,6 +12,7 @@ import CodeEditAreaMobile from "../components/Main/CodeEditAreaMobile";
 const MainMobile = ({ code, mobile }) => {
   const { socket } = useContext(SocketContext);
   const [loading, setLoading] = useState(false);
+  const [inCall, setInCall] = useState(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
@@ -82,8 +82,10 @@ const MainMobile = ({ code, mobile }) => {
   };
 
   const leaveCall = () => {
-    setCallEnded(true);
+    socket.current.emit("callEnd");
     userVideo.current.srcObject = null;
+    setInCall(false);
+    setCallEnded(true);
     navigate(`/joinroom`);
     connectionRef.current.destroy();
   };
@@ -100,6 +102,7 @@ const MainMobile = ({ code, mobile }) => {
               autoPlay
               style={{ width: "100%" }}
             />
+            <span className="m-2">{`You (${user.name})`}</span>
           </div>
           <div className="min-h-[150px] p-1 bg-[#EEEEEE] h-fit w-[50%] border-solid border-0 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-fit">
             <video
@@ -113,7 +116,7 @@ const MainMobile = ({ code, mobile }) => {
             {receivingCall && !callAccepted ? (
               <div className="caller">
                 <h1 className="text-black font-extrabold m-2">
-                  {callerName} is calling...
+                  {`${name} is calling...`}
                 </h1>
                 <button
                   className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
@@ -150,10 +153,11 @@ const MainMobile = ({ code, mobile }) => {
         </div>
       </div>
       <div className="bg-[#EEEEEE] flex flex-col justify-between mt-1 sm:mt-0 w-[100%] h-fit sm:p-6 sm:pl-3 sm:h-[100vh] sm:w-[75vw]">
-        {loading == true ? (
+        {loading === true ? (
           <img
             className="z-10 h-20 w-20 absolute top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]"
             src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif"
+            alt="loading"
           />
         ) : (
           <></>
