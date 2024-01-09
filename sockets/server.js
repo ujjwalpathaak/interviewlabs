@@ -10,15 +10,12 @@ io.on("connection", (socket) => {
   socket.on("get-me", () => {
     io.to(socket.id).emit("got-me", socket.id);
   });
-  socket.on("disconnect", () => {
-    socket.broadcast.emit("callEnded");
-  });
 
   socket.on("join-room", ({ tempRoomId }) => {
     socket.join(tempRoomId);
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnectCall", () => {
     socket.leave();
     socket.broadcast.emit("callEnded");
   });

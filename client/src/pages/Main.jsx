@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import CodeEditArea from "../components/Main/CodeEditArea";
@@ -12,12 +12,11 @@ const Main = ({ code }) => {
   const { socket } = useContext(SocketContext);
   const [loading, setLoading] = useState(false);
   const [inCall, setInCall] = useState(false);
+  const hasMounted = useRef(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
   const {
-    me,
-    setMe,
     stream,
     setStream,
     receivingCall,
@@ -25,13 +24,9 @@ const Main = ({ code }) => {
     caller,
     setCaller,
     callerSignal,
-    callerName,
-    setCallerName,
     setCallerSignal,
     callAccepted,
     setCallAccepted,
-    idToCall,
-    setIdToCall,
     callEnded,
     setCallEnded,
     name,
@@ -42,25 +37,23 @@ const Main = ({ code }) => {
   } = usePeer();
 
   useEffect(() => {
-    socket.current.on("callEnded", (data) => {
-      leaveCall();
-    });
+
     socket.current.on("callUser", (data) => {
-      // console.log("call incomming", data.from);
       setReceivingCall(true);
       setCaller(data.from);
       setName(data.name);
       setCallerSignal(data.signal);
     });
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        // console.log(stream);
-        setStream(stream);
-        // setVid(stream);
-        myVideo.current.srcObject = stream;
-      });
-  }, []);
+    if (!hasMounted.current) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          setStream(stream);
+          myVideo.current.srcObject = stream;
+        });
+    }
+    hasMounted.current = true;
+  });
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -82,8 +75,17 @@ const Main = ({ code }) => {
     connectionRef.current = peer;
   };
 
+  socket.current.on("callEnded", () => {
+    userVideo.current.srcObject = null;
+    setInCall(false);
+    setCallEnded(true);
+    navigate(`/joinroom`);
+    connectionRef.current.destroy();
+  });
+
   const leaveCall = () => {
-    socket.current.emit("callEnd");
+    console.log("leaveCall-client")
+    socket.current.emit("disconnectCall");
     userVideo.current.srcObject = null;
     setInCall(false);
     setCallEnded(true);

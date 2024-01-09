@@ -9,7 +9,7 @@ export const addUser = async (request, response) => {
     let exist = await User.findOne({ email });
     //if user exists
     if (exist) {
-      console.log("user already exists");
+      // console.log("user already exists");
       return response.status(201).json({ error: "User already exists" });
     }
     //Hasing password
@@ -25,7 +25,7 @@ export const addUser = async (request, response) => {
     // console.log("new user added");
     return response.status(200).json(newUser);
   } catch (error) {
-    console.log("error adding new user", error);
+    // console.log("error adding new user", error);
     return response.status(203).json(error.msg);
   }
 };
@@ -35,10 +35,10 @@ export const loginUser = async (request, response) => {
     const { email, password } = request.body;
     const user = await User.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
-      console.log("User Logged in");
+      // console.log("User Logged in");
       response.status(200).json(user);
     } else {
-      console.log("No such user exists");
+      // console.log("No such user exists");
       response.status(201).json("No such user exists");
     }
   } catch (error) {

@@ -23,7 +23,7 @@ function Homepage() {
     }
 
     stopCamera();
-  }, []);
+  });
 
 
   const handleShowSignin = () => {

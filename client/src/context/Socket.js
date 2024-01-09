@@ -10,7 +10,6 @@ const SocketProvider = ({ children }) => {
   const socket = useRef();
   useEffect(() => {
     socket.current = io.connect(`${SOCKET_URL}`);
-    // socket.current = io.connect(`${SOCKET_URL}`);
   }, []);
 
   return (

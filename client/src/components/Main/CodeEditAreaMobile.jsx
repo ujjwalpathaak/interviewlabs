@@ -98,7 +98,7 @@ const CodeEditAreaMobile = (props) => {
             <label className="">
               <input
                 type="radio"
-                checked={check == true}
+                checked={check === true}
                 value="true"
                 name="tre"
                 onChange={() => {
@@ -110,7 +110,7 @@ const CodeEditAreaMobile = (props) => {
             <label className="">
               <input
                 type="radio"
-                checked={check == false}
+                checked={check === false}
                 value="false"
                 name="fls"
                 onChange={() => {
@@ -122,7 +122,7 @@ const CodeEditAreaMobile = (props) => {
           </div>
         </div>
       </div>
-      {terminal == true ? (
+      {terminal === true ? (
         <div className="absolute bg-[#EEEEEE] rounded-lg w-[98vw] h-fit mt-14 sm:h-[35%] top-1/2 left-1/2 translate-y-[-50%] translate-x-[-50%]">
           <div className="text-[#EEEEEE] sm:h-[15%] p-2 flex items-center justify-between rounded-lg rounded-b-none bg-[#222831] h-fit font-medium rounded-t-lg w-[100%]">
             Terminal

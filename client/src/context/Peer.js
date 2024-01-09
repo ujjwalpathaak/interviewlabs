@@ -1,11 +1,7 @@
 import React, {
-  useMemo,
   useState,
-  useEffect,
   useRef,
-  useCallback,
 } from "react";
-import io from "socket.io-client";
 const PeerContext = React.createContext(null);
 export const usePeer = () => React.useContext(PeerContext);
 

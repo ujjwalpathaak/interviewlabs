@@ -20,7 +20,7 @@ const CodeEditArea = (props) => {
   const editorRef = useRef(null);
   const codeRef = useRef(null);
   useEffect(() => {
-    async function init() {
+    if (editorRef.current === null) {
       editorRef.current = Codemirror.fromTextArea(
         document.getElementById("codeEditor2"),
         {
@@ -31,23 +31,22 @@ const CodeEditArea = (props) => {
           lineNumbers: true,
         }
       );
-      editorRef.current.on("change", (instance, changes) => {
-        const { origin } = changes;
-        const code = instance.getValue();
-        setCode(code);
-        // onCodeChange={(code) => {
-        codeRef.current = code;
-        // }}
-        if (origin !== "setValue") {
-          socket.current.emit("code-change", {
-            roomId: props.code,
-            code: code,
-          });
-        }
-      });
     }
-    init();
-  }, []);
+    editorRef.current.on("change", (instance, changes) => {
+      const { origin } = changes;
+      const code = instance.getValue();
+      setCode(code);
+      // onCodeChange={(code) => {
+      codeRef.current = code;
+      // }}
+      if (origin !== "setValue") {
+        socket.current.emit("code-change", {
+          roomId: props.code,
+          code: code,
+        });
+      }
+    });
+  });
 
   const sendData = {
     inputCheck: check,
@@ -61,7 +60,7 @@ const CodeEditArea = (props) => {
       url: `${REACT_APP_CODE_EXECUTE_URL}/cpp`,
       data: sendData,
     }).then((response) => {
-      // console.log(response.data.output);
+      console.log(response.data.output);
       props.setLoading(false);
       socket.current.emit("output-change", {
         roomId: props.code,
@@ -79,19 +78,20 @@ const CodeEditArea = (props) => {
   };
 
   useEffect(() => {
-    socket.current.on("code-changed", ({ code }) => {
+    const currentSocket = socket.current;
+    currentSocket.on("code-changed", ({ code }) => {
       if (code !== null) {
         editorRef.current.setValue(code);
       }
     });
-    socket.current.on("output-changed", ({ result }) => {
+    currentSocket.on("output-changed", ({ result }) => {
       setResult(result);
     });
 
     return () => {
-      socket.current.off("code-changed");
+      currentSocket.off("code-changed");
     };
-  }, []);
+  });
 
   return (
     <div className="flex flex-col sm:h-full sm:w-full">
@@ -137,7 +137,7 @@ const CodeEditArea = (props) => {
             <label className="">
               <input
                 type="radio"
-                checked={check == false}
+                checked={check === false}
                 value="false"
                 name="fls"
                 onChange={() => {

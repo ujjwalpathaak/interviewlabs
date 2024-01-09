@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -16,29 +16,17 @@ const JoinRoomPage = ({ setCode }) => {
   const { socket } = useContext(SocketContext);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const hasMounted = useRef(false);
   const user = useSelector(selectUser);
   const [roomId, setRoomId] = useState();
-  const [vid, setVid] = useState({});
   const navigate = useNavigate();
   const {
     me,
     setMe,
     stream,
     setStream,
-    receivingCall,
-    setReceivingCall,
-    caller,
-    setCaller,
-    callerName,
     setCallerName,
-    callerSignal,
-    setCallerSignal,
-    callAccepted,
     setCallAccepted,
-    idToCall,
-    setIdToCall,
-    callEnded,
-    setCallEnded,
     name,
     setName,
     myVideo,
@@ -47,24 +35,23 @@ const JoinRoomPage = ({ setCode }) => {
   } = usePeer();
 
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
-      .then((stream) => {
-        // console.log(stream);
-        setStream(stream);
-        setVid(stream);
-        myVideo.current.srcObject = stream;
-      });
+    if (!hasMounted.current) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          setStream(stream);
+          myVideo.current.srcObject = stream;
+        });
+    }
     socket.current.emit("get-me");
     socket.current.on("got-me", (id) => {
-      // console.log(id);
       setMe(id);
       setName(user.name);
     });
-  }, []);
+    hasMounted.current = true;
+  });
 
   const callUser = (roomDetails, ownerID) => {
-    // console.log("calling user: ", roomDetails.owner);
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -83,7 +70,6 @@ const JoinRoomPage = ({ setCode }) => {
     });
 
     socket.current.on("callAccepted", async (signal) => {
-      // console.log("call accepted");
       setCallAccepted(true);
       setLoading(false);
       let data2 = {

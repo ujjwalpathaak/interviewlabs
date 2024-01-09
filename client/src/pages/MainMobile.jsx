@@ -12,13 +12,10 @@ import CodeEditAreaMobile from "../components/Main/CodeEditAreaMobile";
 const MainMobile = ({ code, mobile }) => {
   const { socket } = useContext(SocketContext);
   const [loading, setLoading] = useState(false);
-  const [inCall, setInCall] = useState(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
   const {
-    me,
-    setMe,
     stream,
     setStream,
     receivingCall,
@@ -26,13 +23,9 @@ const MainMobile = ({ code, mobile }) => {
     caller,
     setCaller,
     callerSignal,
-    callerName,
-    setCallerName,
     setCallerSignal,
     callAccepted,
     setCallAccepted,
-    idToCall,
-    setIdToCall,
     callEnded,
     setCallEnded,
     name,
@@ -60,7 +53,7 @@ const MainMobile = ({ code, mobile }) => {
         setStream(stream);
         myVideo.current.srcObject = stream;
       });
-  }, []);
+  });
 
   const answerCall = () => {
     setCallAccepted(true);
@@ -84,7 +77,6 @@ const MainMobile = ({ code, mobile }) => {
   const leaveCall = () => {
     socket.current.emit("callEnd");
     userVideo.current.srcObject = null;
-    setInCall(false);
     setCallEnded(true);
     navigate(`/joinroom`);
     connectionRef.current.destroy();
@@ -162,7 +154,7 @@ const MainMobile = ({ code, mobile }) => {
         ) : (
           <></>
         )}
-        {mobile == "mobile" ? (
+        {mobile === "mobile" ? (
           <CodeEditAreaMobile loading={loading} setLoading={setLoading} />
         ) : (
           <CodeEditArea code={code} loading={loading} setLoading={setLoading} />
