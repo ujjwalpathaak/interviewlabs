@@ -1,5 +1,5 @@
 import axios from "axios";
-const REACT_APP_DEVELOPMENT_BACKEND_URL =process.env.REACT_APP_BACKEND_URL;
+const REACT_APP_DEVELOPMENT_BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 export const createRoom = async (data) => {
   try {
@@ -15,7 +15,7 @@ export const createRoom = async (data) => {
 
 export const joinRoom = async (data) => {
   try {
-    let response = await axios.post(
+    let response = await axios.put(
       `${REACT_APP_DEVELOPMENT_BACKEND_URL}/joinRoom`,
       data
     );
@@ -25,24 +25,20 @@ export const joinRoom = async (data) => {
   }
 };
 
-export const getRoom = async (data) => {
+export const deleteRoom = async (data) => {
   try {
-    console.log(data);
-    let response = await axios.get(
-      `${REACT_APP_DEVELOPMENT_BACKEND_URL}/getRoom`,
-      data
-    );
-    return response.data;
+    await axios.delete(`${REACT_APP_DEVELOPMENT_BACKEND_URL}/deleteRoom?roomId=${data.roomId}`);
   } catch (err) {
     console.log(err.message);
   }
 };
-export const getSocketId = async (data) => {
+
+export const getRoom = async (data) => {
   try {
-    let response = await axios.post(
-      `${REACT_APP_DEVELOPMENT_BACKEND_URL}/getSocketId`,
-      data
+    let response = await axios.get(
+      `${REACT_APP_DEVELOPMENT_BACKEND_URL}/getRoom?roomId=${data.roomId}`
     );
+    console.log(response.data);
     return response.data;
   } catch (err) {
     console.log(err.message);

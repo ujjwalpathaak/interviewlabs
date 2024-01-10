@@ -15,7 +15,6 @@ export const executeCode = async (request, response) => {
       input: input,
       code: code,
     });
-    console.log(res);
-    response.status(200).json(res.data);
+    return response.status(200).json(res.data);
   } catch (error) {}
 };

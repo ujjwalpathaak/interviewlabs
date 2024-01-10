@@ -9,7 +9,7 @@ import { SocketContext } from "../../context/Socket";
 import { selectUser } from "../../provider/userSlice";
 import loadingGIF from "../../assets/loading.gif";
 import { usePeer } from "../../context/Peer";
-import { createRoom, getSocketId } from "../../service/roomApi";
+import { createRoom, getRoom } from "../../service/roomApi";
 import Peer from "simple-peer";
 
 const JoinRoomPage = ({ setCode }) => {
@@ -49,6 +49,13 @@ const JoinRoomPage = ({ setCode }) => {
       setName(user.name);
     });
     hasMounted.current = true;
+  });
+
+  socket.current.on("callEnded", () => {
+    userVideo.current.srcObject = null;
+    navigate(`/`);
+    window.location.reload(true);
+    connectionRef.current.destroy();
   });
 
   const callUser = (roomDetails, ownerID) => {
@@ -113,7 +120,7 @@ const JoinRoomPage = ({ setCode }) => {
       window.alert("Please Fill in Room Id");
       return;
     }
-    let roomDetails = await getSocketId({
+    let roomDetails = await getRoom({
       roomId: roomId,
     });
     socket.current.emit("join-room", {

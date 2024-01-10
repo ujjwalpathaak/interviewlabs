@@ -7,6 +7,7 @@ import { SocketContext } from "../context/Socket";
 import { selectUser } from "../provider/userSlice";
 import Peer from "simple-peer";
 import { useNavigate } from "react-router-dom";
+import { deleteRoom } from "../service/roomApi";
 
 const Main = ({ code }) => {
   const { socket } = useContext(SocketContext);
@@ -27,7 +28,6 @@ const Main = ({ code }) => {
     setCallerSignal,
     callAccepted,
     setCallAccepted,
-    callEnded,
     setCallEnded,
     name,
     setName,
@@ -79,18 +79,18 @@ const Main = ({ code }) => {
     userVideo.current.srcObject = null;
     setInCall(false);
     setCallEnded(true);
-    navigate(`/joinroom`);
-    connectionRef.current.destroy();
+    navigate(`/`);
+    window.location.reload(true);
   });
 
   const leaveCall = () => {
-    console.log("leaveCall-client")
     socket.current.emit("disconnectCall");
     userVideo.current.srcObject = null;
+    deleteRoom({ roomId: code });
     setInCall(false);
     setCallEnded(true);
-    navigate(`/joinroom`);
-    connectionRef.current.destroy();
+    navigate(`/`);
+    window.location.reload(true);
   };
 
   return (
@@ -122,8 +122,6 @@ const Main = ({ code }) => {
             {receivingCall && !callAccepted ? (
               <div className="caller">
                 <h1 className="text-white font-extrabold m-2">
-                  {/* {callerName ? callerName : "unknown"}  */}
-                  {/* is calling... */}
                   {`${name} is calling...`}
                 </h1>
                 <button
@@ -134,14 +132,12 @@ const Main = ({ code }) => {
                 </button>
               </div>
             ) : null}
-            {callAccepted && !callEnded ? (
-              <button
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                onClick={leaveCall}
-              >
-                End Call
-              </button>
-            ) : null}
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              onClick={leaveCall}
+            >
+              End Call
+            </button>
           </div>
         </div>
         <div className="bg-[#00ADB5] h-[5%] w-[100%] flex items-center p-2 rounded-b-lg">
