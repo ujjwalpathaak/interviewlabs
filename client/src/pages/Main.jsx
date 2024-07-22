@@ -63,7 +63,6 @@ const Main = ({ code }) => {
       trickle: false,
       stream: stream,
     });
-    console.log(caller);
     peer.on("signal", (data) => {
       socket.current.emit("answerCall", { signal: data, to: caller });
     });
@@ -96,29 +95,27 @@ const Main = ({ code }) => {
   return (
     <div className="bg-[#EEEEEE] w-[100vw] h-[100vh] flex flex-col sm:justify-around items-center sm:flex-row">
       <div className="w-full h-[30vh] flex-col sm:rounded-lg sm:h-[100vh] sm:p-6 sm:pr-3 sm:w-[25vw] sm:min-w-[350px]">
-        <div className="bg-[#393E46] w-[100%] h-full flex flex-row justify-evenly sm:h-[95%] sm:flex-col sm:p-4 sm:min-h-[550px] rounded-t-lg">
-          <div className="min-h-[250px] bg-[#EEEEEE] h-full w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-fit">
-
+        <div className="bg-[#222831] w-[100%] h-full flex flex-row justify-evenly sm:h-[95%] sm:flex-col sm:p-4 sm:min-h-[550px] rounded-t-lg">
+          <div className="min-h-[250px] bg-[#EEEEEE] relative h-fit w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-fit">
+            <video
+              playsInline
+              ref={userVideo}
+              autoPlay
+              style={{ objectFit: "cover", height: "100%" }}
+            />
+            {inCall ? <span className="absolute left-1 bottom-0 z-10 font-bold">{`${name}`}</span> : <span className="absolute left-1 bottom-0 z-10 font-bold">No user in meeting</span>}
+          </div>
+          <div className="min-h-[250px] relative bg-[#EEEEEE] h-fit w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-fit">
             <video
               playsInline
               muted
               ref={myVideo}
               autoPlay
-              style={{ width: "100%" }}
+              style={{ objectFit: "cover", height: "100%" }}
             />
-            <span className="m-2">{`You (${user.name})`}</span>
+            <span className="absolute bottom-0 left-1 z-10 font-bold">{`You (${user.name})`}</span>
           </div>
-          <div className="min-h-[250px] bg-[#EEEEEE] h-fit w-[50%] border-solid border-2 border-gray-400 sm:rounded-lg sm:w-[100%] sm:h-fit">
-            <video
-              playsInline
-              ref={userVideo}
-              autoPlay
-              style={{ width: "100%" }}
-            />
-            {inCall && <span className="m-2">{`${name}`}</span>}
-          </div>
-
-          <div className="z-10">
+          <div className="z-10 pl-5 pr-5 flex flex-col justify-center ">
             {receivingCall && !callAccepted ? (
               <div className="caller">
                 <h1 className="text-white font-extrabold m-2">
@@ -133,10 +130,12 @@ const Main = ({ code }) => {
               </div>
             ) : null}
             <button
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              className="bg-red-500 mt-5 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
               onClick={leaveCall}
             >
-              End Call
+              {
+                inCall ? "End Call" : "Leave Meeting"
+              }
             </button>
           </div>
         </div>
@@ -144,7 +143,7 @@ const Main = ({ code }) => {
           <h1 className="mr-2 font-medium">Room Code: </h1>
           <span className="mr-2">{code}</span>
           <button
-            className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm p-2  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm p-1  dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             onClick={async () => {
               await navigator.clipboard.writeText(code);
             }}

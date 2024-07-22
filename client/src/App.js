@@ -19,13 +19,10 @@ function App() {
   const breakpoint = 620;
 
   useEffect(() => {
-    /* Inside of a "useEffect" hook add an event listener that updates
-         the "width" state variable when the window size changes */
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
 
-    /* passing an empty array as the dependencies of the effect will cause this
-         effect to only run when the component mounts, and not each time it updates.
-         We only want the listener to be added once */
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (

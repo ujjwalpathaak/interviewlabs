@@ -25,7 +25,6 @@ const Signin = ({ handleHideSignin, handleShowSignup }) => {
       setLoading(true);
       let response = await axios.post(`${BACKEND_URL}/loginUser`, oldUserData);
       if (response.status === 200) {
-        setLoading(false);
         dispatch(
           login({
             name: response.data.name,
@@ -38,6 +37,7 @@ const Signin = ({ handleHideSignin, handleShowSignup }) => {
       if (response.status === 201) {
         window.alert("Wrong Email or Password");
       }
+      setLoading(false);
     } catch (error) {
       console.log(error, "Error in logging in user");
     }

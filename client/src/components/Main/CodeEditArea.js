@@ -13,7 +13,6 @@ let REACT_APP_CODE_EXECUTE_URL = process.env.REACT_APP_COMPILERCONNECT_URL;
 
 const CodeEditArea = (props) => {
   const [code, setCode] = useState(``);
-  const [check, setCheck] = useState(false);
   const [input, setInput] = useState(``);
   const [result, setResult] = useState(``);
   const { socket } = useContext(SocketContext);
@@ -36,9 +35,7 @@ const CodeEditArea = (props) => {
       const { origin } = changes;
       const code = instance.getValue();
       setCode(code);
-      // onCodeChange={(code) => {
       codeRef.current = code;
-      // }}
       if (origin !== "setValue") {
         socket.current.emit("code-change", {
           roomId: props.code,
@@ -49,7 +46,7 @@ const CodeEditArea = (props) => {
   });
 
   const sendData = {
-    inputCheck: check,
+    inputCheck: input.length > 0 ? "true" : "false",
     input: input,
     code: code,
   };
@@ -113,40 +110,14 @@ const CodeEditArea = (props) => {
             <span>Run</span>
           </button>
         </div>
-        <div className="w-[30%] pb-2 pl-1">
+        <div className="w-[30%] h-[90%] pb-2 pl-1">
           <div className="text-[#EEEEEE] sm:h-[10%] p-2 flex items-center rounded-lg rounded-b-none bg-[#222831] h-fit font-medium rounded-t-lg w-[100%]">
             Input
           </div>
           <textarea
-            className="p-4 rounded-lg rounded-t-none border-solid border-2 h-[80%] w-full border-gray-400 overflow-hidden focus:border-gray-400"
+            className="p-4 rounded-lg rounded-t-none border-solid border-2 h-[100%] w-full border-gray-400 overflow-hidden focus:border-gray-400"
             onChange={handletakeInput}
           />
-          <div className="h-[10%]">
-            <label className="">
-              <input
-                type="radio"
-                checked={check === true}
-                value="true"
-                name="tre"
-                onChange={() => {
-                  setCheck(true);
-                }}
-              />
-              <span className="m-1">Input</span>
-            </label>
-            <label className="">
-              <input
-                type="radio"
-                checked={check === false}
-                value="false"
-                name="fls"
-                onChange={() => {
-                  setCheck(false);
-                }}
-              />
-              <span className="m-1">No Input</span>
-            </label>
-          </div>
         </div>
       </div>
       <div className="bg-[#EEEEEE] rounded-lg h-fit sm:h-[35%]">
