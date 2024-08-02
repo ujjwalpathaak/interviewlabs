@@ -6,10 +6,12 @@ const PeerContext = React.createContext(null);
 export const usePeer = () => React.useContext(PeerContext);
 
 export const PeerProvider = (props) => {
+  let dark = localStorage.getItem('theme') || "dark";
   const [me, setMe] = useState("");
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
   const [caller, setCaller] = useState("");
+  const [darkMode, setDarkMode] = useState(dark === 'dark' ? true : false);
   const [callerName, setCallerName] = useState("");
   const [callerSignal, setCallerSignal] = useState();
   const [callAccepted, setCallAccepted] = useState(false);
@@ -40,6 +42,8 @@ export const PeerProvider = (props) => {
         setCallAccepted,
         idToCall,
         setIdToCall,
+        setDarkMode,
+        darkMode,
         callEnded,
         setCallEnded,
         name,
