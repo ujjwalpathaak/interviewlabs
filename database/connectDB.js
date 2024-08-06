@@ -7,7 +7,7 @@ const Connection = () => {
   try {
     mongoose.set("strictQuery", false); 
     mongoose.connect(DB_URL, { useUnifiedTopology: true });
-    console.log("database connected");
+    console.log("Database Connected");
   } catch (error) {
     console.log("error connecting to database", err.message);
   }

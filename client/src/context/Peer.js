@@ -11,25 +11,33 @@ export const PeerProvider = (props) => {
   const [stream, setStream] = useState();
   const [receivingCall, setReceivingCall] = useState(false);
   const [caller, setCaller] = useState("");
+  const [inCall, setInCall] = useState(false);
   const [darkMode, setDarkMode] = useState(dark === 'dark' ? true : false);
   const [callerName, setCallerName] = useState("");
   const [callerSignal, setCallerSignal] = useState();
   const [callAccepted, setCallAccepted] = useState(false);
   const [idToCall, setIdToCall] = useState("");
   const [callEnded, setCallEnded] = useState(false);
-  const [name, setName] = useState("");
-  const myVideo = useRef({});
-  const userVideo = useRef({});
+  const [MyName, setMyName] = useState("");
+  const [otherName, setOtherName] = useState("");
+  const [mediaElement, setMediaElement] = useState(null);
+  const myVideo = useRef(null);
+  const userVideo = useRef(null);
   const connectionRef = useRef();
 
   return (
     <PeerContext.Provider
       value={{
         me,
-        // socket,
+        setInCall,
+        inCall,
         setMe,
+        setOtherName,
         stream,
         setStream,
+        mediaElement,
+        setMediaElement,
+        otherName,
         receivingCall,
         setReceivingCall,
         caller,
@@ -46,8 +54,8 @@ export const PeerProvider = (props) => {
         darkMode,
         callEnded,
         setCallEnded,
-        name,
-        setName,
+        MyName,
+        setMyName,
         myVideo,
         userVideo,
         connectionRef,

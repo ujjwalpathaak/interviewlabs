@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import './DarkModeToggle.css'; // For custom styling
 import { usePeer } from '../context/Peer';
+import moon from "../assets/moon.png";
 
 const DarkModeToggle = () => {
   const {
@@ -27,7 +28,7 @@ const DarkModeToggle = () => {
       className={`dark-mode-toggle mr-5`}
       onClick={handleToggle}
     >
-      {!darkMode ? (
+      {darkMode ? (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="12" r="5" stroke="#FFD700" strokeWidth="2" />
           <path d="M12 1V3" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -40,12 +41,7 @@ const DarkModeToggle = () => {
           <path d="M18.36 5.64L19.78 4.22" stroke="#FFD700" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ) : (
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2" fill="white" />
-          <circle cx="18" cy="12" r="8" stroke="#001122" stroke-width="2" fill="#001122" />
-          <circle cx="18" cy="12" r="6" stroke="#001122" stroke-width="2" fill="#001122" />
-        </svg>
-
+<img src={moon} alt="moon" className='w-[30px]' />
       )}
     </div>
   );

@@ -15,7 +15,7 @@ import DarkModeToggle from "../utils/DarkModeToggle";
 
 const Homepage = ({ bg_dark, bg_light }) => {
   const dispatch = useDispatch();
-  const { stream, setStream, darkMode } = usePeer();
+  const { stream, setStream, darkMode, setMyName } = usePeer();
   const navigate = useNavigate();
 
   const [isShownSignin, setIsShownSignin] = useState(false);
@@ -62,6 +62,7 @@ const Homepage = ({ bg_dark, bg_light }) => {
       const response = await signIn(oldUserData);
       if (response.status === 200) {
         dispatch(login({ name: response.data.name, email: response.data.email, password: response.data.password, loggedIn: true }));
+        setMyName(response.data.name);
         navigate(`/joinroom`);
       } else if (response.status === 201) {
         toast.error('Wrong credentials!', {
@@ -76,7 +77,7 @@ const Homepage = ({ bg_dark, bg_light }) => {
         });
       }
     } catch (error) {
-      console.log(error, "Error in logging in user");
+      console.error(error, "Error in logging in user");
     }
     setLoading(false);
   };
@@ -113,7 +114,7 @@ const Homepage = ({ bg_dark, bg_light }) => {
         window.alert("Error adding user");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

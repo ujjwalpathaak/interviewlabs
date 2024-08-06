@@ -12,7 +12,7 @@ export const createRoom = async (data) => {
   }
 };
 
-export const joinRoom = async (data) => {
+export const joinRoomAPI = async (data) => {
   try {
     const response = await axios.put(`${BACKEND_URL}/joinRoom`, data);
     return response.data;

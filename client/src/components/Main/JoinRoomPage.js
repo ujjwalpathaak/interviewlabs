@@ -10,7 +10,7 @@ import { uniqueIdGenerator } from "../../utils/uniqueIdGenerator";
 import { SocketContext } from "../../context/Socket";
 import { selectUser } from "../../provider/userSlice";
 import { usePeer } from "../../context/Peer";
-import { createRoom, getRoom } from "../../service/roomApi";
+import { createRoom, getRoom, joinRoomAPI } from "../../service/roomApi";
 import loadingGIF from "../../assets/loading.gif";
 import bg_dark from "../../assets/bg_dark.svg";
 import bg_light from "../../assets/bg_light.svg";
@@ -22,7 +22,7 @@ const Divider = ({ color }) => (
   <div style={{ textAlign: 'center', margin: '0' }}>
     <span style={{
       display: 'inline-block',
-      width: '200px',
+      width: '150px',
       borderTop: `2px solid ${color}`,
     }} />
   </div>
@@ -38,14 +38,25 @@ const JoinRoomPage = ({ setCode }) => {
   const [roomId, setRoomId] = useState();
   const hasMounted = useRef(false);
   const { darkMode } = usePeer();
-  console.log(darkMode);
   const color = darkMode ? '#FFFFFF' : '#001122';
   const textColour = darkMode ? 'text-[#FFFFFF]' : 'text-[#001122]';
 
   const {
-    me, setMe, stream, setStream, setCallerName,
-    setCallAccepted, name, setName, myVideo,
-    userVideo, connectionRef
+    me,
+    setMe,
+    stream, 
+    setStream,
+    setCallerName,
+    setCallAccepted,
+    MyName,
+    setMediaElement,
+    setMyName,
+    setOtherName,
+    myVideo,
+    setInCall,
+    inCall,
+    userVideo,
+    connectionRef
   } = usePeer();
 
   useEffect(() => {
@@ -62,26 +73,22 @@ const JoinRoomPage = ({ setCode }) => {
 
       navigator.mediaDevices.getUserMedia({ video: true, audio: true })
         .then(stream => {
+          console.log("Setting Stream: ", stream);
           setStream(stream);
           myVideo.current.srcObject = stream;
         });
 
       socket.current.emit("get-me");
       socket.current.on("got-me", id => {
+        console.log("My ID: ", id);
         setMe(id);
-        setName(user.name);
+        setMyName(user.name);
       });
 
       hasMounted.current = true;
     }
 
-    socket.current.on("callEnded", () => {
-      userVideo.current.srcObject = null;
-      navigate(`/`);
-      window.location.reload(true);
-      connectionRef.current.destroy();
-    });
-  }, [socket, setStream, myVideo, user.name, darkMode, setMe, setName, navigate, userVideo, connectionRef]);
+  }, [socket, setStream, myVideo, user.name, darkMode, setMe, navigate, userVideo, connectionRef, setMyName]);
 
   const callUser = (roomDetails) => {
     const peer = new Peer({
@@ -91,21 +98,32 @@ const JoinRoomPage = ({ setCode }) => {
     });
 
     peer.on("signal", data => {
-      socket.current.emit("callUser", {
+      console.log("Calling user... ", data, roomDetails.ownerId);
+      socket.current.emit("call-user", {
         userToCall: roomDetails.ownerId,
         signalData: data,
         from: me,
-        name: name,
+        name: MyName,
       });
     });
 
     peer.on("stream", stream => {
-      userVideo.current.srcObject = stream;
+      console.log("Stream event fired, User Video: ", stream);
+        setMediaElement(stream);
+        userVideo.current.srcObject = stream;
+        setTimeout(() => {
+        navigate(`/room/${roomId}`)
+        setLoading(false);
+        }, 2000);
     });
 
-    socket.current.on("callAccepted", async signal => {
+    socket.current.on("call-accepted", async data => {
+      console.log("Call Accepted: ", data);
       setCallAccepted(true);
-      setLoading(false);
+      setOtherName(data.name);
+      setInCall(true);
+
+      console.log("stream: ", data.stream);
 
       const data2 = {
         roomId: roomDetails.roomId,
@@ -114,11 +132,12 @@ const JoinRoomPage = ({ setCode }) => {
       };
 
       setCallerName(user.name);
-      await joinRoom(data2);
-      peer.signal(signal);
-      navigate(`/room/${roomId}`);
+      await joinRoomAPI(data2);
+      console.log(data.signal.signal);
+      peer.signal(data.signal.signal);
     });
 
+    
     connectionRef.current = peer;
   };
 
@@ -135,12 +154,15 @@ const JoinRoomPage = ({ setCode }) => {
     dispatch(createdRoom(newRoom));
     createRoom(newRoom);
 
-    socket.current.emit("join-room", { tempRoomId });
+    socket.current.emit("create-new-room", { tempRoomId });
+    console.log("Room Created: ", tempRoomId);
     setCode(tempRoomId);
+    console.log("Creating new Room: ", tempRoomId);
     navigate(`/room/${tempRoomId}`);
   };
 
   const joinRoom = async () => {
+    setLoading(true);
     if (!roomId) {
       toast.info('Please Fill in the Room Id', {
         position: "top-right",
@@ -152,17 +174,32 @@ const JoinRoomPage = ({ setCode }) => {
         progress: undefined,
         theme: darkMode ? "dark" : "light",
       });
+      setLoading(false);
       return;
     }
+  
+    try {
+      const roomDetails = await getRoom({ roomId });
+      console.log("Room Details: ", roomDetails);
+      socket.current.emit("try-join-room", { tempRoomId: roomDetails.roomId });
+      console.log("Joining Room: ", roomDetails.roomId);
+      setCode(roomDetails.roomId);
+      callUser(roomDetails);
 
-    const roomDetails = await getRoom({ roomId });
-
-    socket.current.emit("join-room", { tempRoomId: roomDetails.roomId });
-    setCode(roomDetails.roomId);
-    setLoading(true);
-    callUser(roomDetails);
+    } catch (error) {
+      toast.error('Failed to join room. Please try again.', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: darkMode ? "dark" : "light",
+      });
+    }
   };
-
+  
   const handleEnterKey = (e) => {
     if (e.code === "Enter") {
       joinRoom();
@@ -184,11 +221,11 @@ const JoinRoomPage = ({ setCode }) => {
         theme={darkMode ? "dark" : "light"}
       />
       <div style={{ backgroundImage: `url(${darkMode ? bg_dark : bg_light})` }} className="bg-cover bg-center w-[100vw] h-[100vh] flex flex-col bg-white dark:bg-[#001122] ">
-        <header className="p-5 ml-16 h-[15%] flex items-center justify-start">
+        <header className="p-5 ml-2 md:ml-16 h-[15%] flex items-center justify-start">
           <DarkModeToggle />
         </header>
         <main className="h-full flex flex-col justify-center items-center p-16 sm:flex-row">
-          <div className="w-1/3">
+          <div className="w-full mb-5 md:mb-0 md:mr-10 md:w-1/3">
             <div className="w-fit h-fit p-2 bg-[#050537] dark:bg-white">
               <video
                 playsInline
@@ -200,20 +237,26 @@ const JoinRoomPage = ({ setCode }) => {
             </div>
           </div>
           <div className="w-1/3">
+          {inCall && <video
+                playsInline
+                ref={userVideo}
+                autoPlay
+                style={{ objectFit: "cover", height: "100%", display: "none" }}
+              />}
             {loading ? (
-              <div className="">
-                <span className="pl-10">
+              <div className="pl-10 bg-gray-200 border-2 border-gray-400 dark:text-white text-zinc-900 dark:bg-[#112036] p-2 rounded-lg">
+                <span className=" ">
                   Please wait while you are added to the room by the room owner.
                 </span>
                 <img src={loadingGIF} className="w-[100px]" alt="Loading-Gif" />
               </div>
             ) : (
-              <div className="flex flex-col justify-center items-center ml-8">
-                <span>
+              <div className="flex flex-col justify-center items-center md:ml-8">
+                <span className="flex sm:flex-row flex-col">
                   <span className="whitespace-nowrap text-base italic sm:text-2xl mb-7 font-semibold text-[#050537] dark:text-white py-2 px-4">Create a </span>
                   <button
                     onClick={createNewRoom}
-                    className="whitespace-nowrap text-base sm:text-2xl  mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
+                    className="whitespace-nowrap text-base sm:text-2xl mb-2 md:mb-7 bg-transparent hover:bg-[#00ADB5] text-[#00ADB5] font-semibold hover:text-white py-2 px-4 border border-[#00ADB5] hover:border-transparent rounded-full"
                   >
                     New Session
                   </button>
@@ -223,7 +266,7 @@ const JoinRoomPage = ({ setCode }) => {
                   <span className={`text-lg mx-2 italic ${textColour}`} >or</span>
                   <Divider color={color} />
                 </div>
-                <div className="flex mt-7">
+                <div className="flex mt-2 md:mt-7">
                   <input
                     type="text"
                     className="bg-transparent p-2 focus:bg-opacity-0 form-control m-2 w-10% px-3 py-1.5 text-base font-normal text-[#393E46] dark:text-white text-bold bg-white bg-clip-padding border border-solid border-zinc-900 dark:border-gray-300 rounded-full transition ease-in-out focus:text-[#393E46] focus:bg-white focus:border-[#00ADB5] focus:outline-none"
