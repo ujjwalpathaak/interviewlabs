@@ -13,6 +13,11 @@ Interviewers and interviewees have dedicated meeting rooms for conducting interv
 ### New Meeting Screen
 ### Meeting Screen
 
+## CodeCompiler API
+It is an in-house developed API designed to compile and run C++ code in the cloud.
+- **Docker**: The API uses Docker to containerize the execution environment. This guarantees consistency and isolation, preventing conflicts and ensuring that the code runs in a standardized setup across different sessions.
+- **Child Processes**: Each code execution request spawns a new child process within the Docker container. This isolates the code execution, providing a secure environment and preventing any interference between concurrent sessions.
+
 ## Technical Implementation
 
 ### Frontend Development
@@ -28,9 +33,8 @@ Interviewers and interviewees have dedicated meeting rooms for conducting interv
 ### Real-Time Collaboration
 - **Socket.io**: Real-time shared coding environment.
 
-### Code Execution - CodeCompiler API
-- **Docker**: Containerized C++ code execution.
-- **Child Processes**: Isolated code running.
+### Code Execution
+- **CodeCompiler API**: API to run C++ over the cloud.
 
 ## Getting Started
 To get a local copy up and running follow these simple example steps.
