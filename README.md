@@ -1,14 +1,17 @@
+<a name="readme-top"></a>
+<br />
+<div align="center">
   <a href="https://github.com/github_username/repo_name">
     <img src="readme/images/logo.png" alt="Logo" width="fit-content" height="fit-content">
   </a>
-<a name="readme-top"></a>
+
+<!-- <h3 align="center">interviewlabs</h3> -->
+<br>
   <p align="justify">
-Interviewers and interviewees have dedicated meeting rooms for conducting interviews. They also have access to a real-time IDE for collaborative C++ coding. The code can be compiled and run in the cloud using an in-house API called CodeCompiler API ( code available in the root directory ).
-  </p>
-
-<img alt="Sockets" src="https://img.shields.io/badge/-ReactJs-85051b?logo=react&logoColor=white&style=for-the-badge"/> <img alt="Sockets" src="https://img.shields.io/badge/Redux-purple?style=for-the-badge&logo=redux&logoColor=white"/> <img alt="Nodejs" src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/> <img alt="Sockets" src="https://img.shields.io/badge/Sockets-F7DF1E?style=for-the-badge&logo=socket.io&logoColor=black"/> <img alt="Sockets" src="https://img.shields.io/badge/Tailwind-rgb(56,189,248)?style=for-the-badge&logo=tailwindcss&logoColor=white"/> 
-
+    Interviewers and interviewees have dedicated meeting rooms for conducting interviews. They also have access to a real-time IDE for collaborative C++ coding. The code can be compiled and run in the cloud using an in-house API called CodeCompiler API ( code available in the root directory ).</p>
+    <img alt="Sockets" src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=nextdotjs&logoColor=white"/> <img alt="Nodejs" src="https://img.shields.io/badge/Firebase-red?style=for-the-badge&logo=firebase&logoColor=white"/> <img alt="Sockets" src="https://img.shields.io/badge/Typescript-blue?style=for-the-badge&logo=typescript&logoColor=black"/> <img alt="Sockets" src="https://img.shields.io/badge/Tailwind-rgb(56,189,248)?style=for-the-badge&logo=tailwindcss&logoColor=white"/> <img alt="Sockets" src="https://img.shields.io/badge/Zustand-purple?style=for-the-badge&logo=zustand&logoColor=white"/> <img alt="Sockets" src="https://img.shields.io/badge/Chrome Extension-red?style=for-the-badge&logo=googlechrome&logoColor=white"/>
 <h3>Go to <a href="https://interviewlabs.netlify.app/">Interviewlabs.com</a> or see <a href="https://interviewlabs.netlify.app/">Demo Video</a></h3>
+</div>
 
 ## Screenshots
 ### Login Screen
