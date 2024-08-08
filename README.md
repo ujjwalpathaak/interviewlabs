@@ -1,4 +1,6 @@
-# Interviewlabs
+  <a href="https://github.com/github_username/repo_name">
+    <img src="readme/images/logo.png" alt="Logo" width="fit-content" height="fit-content">
+  </a>
 <a name="readme-top"></a>
   <p align="justify">
 Interviewers and interviewees have dedicated meeting rooms for conducting interviews. They also have access to a real-time IDE for collaborative C++ coding. The code can be compiled and run in the cloud using an in-house API called CodeCompiler API ( code available in the root directory ).
