@@ -15,8 +15,14 @@
 
 ## Screenshots
 ### Login Screen
+<img width="1710" alt="Screenshot 2024-08-09 at 4 18 09 PM" src="https://github.com/user-attachments/assets/0edadb97-6b1a-492f-aad1-d0c96dd7e4a2">
+
 ### New Meeting Screen
+<img width="1710" alt="Screenshot 2024-08-09 at 4 20 07 PM" src="https://github.com/user-attachments/assets/f74e7124-b682-448b-b66e-6afcdfd396bf">
+
 ### Meeting Screen
+<img width="1710" alt="Screenshot 2024-08-09 at 4 23 33 PM" src="https://github.com/user-attachments/assets/b783ea57-f6d7-462b-a8c1-75c47cf2acd3">
+
 
 ## CodeCompiler API
 It is an in-house developed API designed to compile and run C++ code in the cloud.
