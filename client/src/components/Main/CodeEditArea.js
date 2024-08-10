@@ -35,7 +35,7 @@ const CodeEditArea = (props) => {
     } else {
       editorRef.current.setOption("theme", darkMode ? "cobalt" : "default");
     }
-    
+
     editorRef.current.on("change", (instance, changes) => {
       const { origin } = changes;
       const code = instance.getValue();
@@ -48,7 +48,7 @@ const CodeEditArea = (props) => {
         });
       }
     });
-  
+
   }, [darkMode, props.code, socket]);
 
   const sendData = {
@@ -58,7 +58,7 @@ const CodeEditArea = (props) => {
   };
   const handleSubmit = async () => {
     props.setLoading(true);
-    socket.current.emit("code-sent-to-process",{
+    socket.current.emit("code-sent-to-process", {
       roomId: props.code,
       code: code,
     })
